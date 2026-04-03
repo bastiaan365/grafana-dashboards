@@ -13,6 +13,21 @@ Custom Grafana dashboards for monitoring a segmented home network with OPNsense,
 | System Health | CPU, memory, disk, temperature for all devices |
 | WireGuard VPN | Tunnel status, handshake times, data transferred |
 
+## 📸 Screenshots
+
+> **Note:** Add your own screenshots to the `screenshots/` folder and update the links below.
+
+| Dashboard | Preview |
+|---|---|
+| Network Overview | ![Network Overview](screenshots/network-overview.png) |
+| Suricata IDS | ![Suricata IDS](screenshots/suricata-ids.png) |
+| DNS Analytics | ![DNS Analytics](screenshots/dns-analytics.png) |
+| OPNsense Firewall | ![OPNsense Firewall](screenshots/opnsense-firewall.png) |
+| System Health | ![System Health](screenshots/system-health.png) |
+| WireGuard VPN | ![WireGuard VPN](screenshots/wireguard-vpn.png) |
+
+*Screenshots show anonymized sample data.*
+
 ## 🏗️ Stack
 
 ```text
