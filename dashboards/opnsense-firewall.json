@@ -26,10 +26,78 @@
   "liveNow": false,
   "panels": [
     {
+      "title": "Firewall State Count",
+      "type": "stat",
+      "id": 5,
+      "gridPos": { "h": 4, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 100000 },
+              { "color": "red", "value": 170000 }
+            ]
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "graphMode": "area",
+        "colorMode": "background",
+        "justifyMode": "center",
+        "textMode": "value_and_name",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "query": "from(bucket: \"telegraf\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"opnsense_firewall\")\n  |> filter(fn: (r) => r._field == \"state_table_entries\")\n  |> last()\n  |> yield(name: \"state_count\")"
+        }
+      ]
+    },
+    {
+      "title": "Rules Triggered (24h)",
+      "type": "stat",
+      "id": 6,
+      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1000 },
+              { "color": "red", "value": 10000 }
+            ]
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "graphMode": "area",
+        "colorMode": "background",
+        "justifyMode": "center",
+        "textMode": "value_and_name",
+        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "query": "from(bucket: \"telegraf\")\n  |> range(start: -24h)\n  |> filter(fn: (r) => r._measurement == \"opnsense_firewall\")\n  |> filter(fn: (r) => r._field == \"rule_hits\")\n  |> sum()\n  |> yield(name: \"rules_triggered\")"
+        }
+      ]
+    },
+    {
       "title": "Firewall Rule Hits Over Time",
       "type": "timeseries",
       "id": 1,
-      "gridPos": { "h": 9, "w": 14, "x": 0, "y": 0 },
+      "gridPos": { "h": 9, "w": 14, "x": 0, "y": 4 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {
@@ -59,7 +127,7 @@
       "title": "State Table Size",
       "type": "gauge",
       "id": 2,
-      "gridPos": { "h": 9, "w": 5, "x": 14, "y": 0 },
+      "gridPos": { "h": 9, "w": 5, "x": 14, "y": 4 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {
@@ -92,7 +160,7 @@
       "title": "Interface Packets & Errors",
       "type": "timeseries",
       "id": 3,
-      "gridPos": { "h": 9, "w": 5, "x": 19, "y": 0 },
+      "gridPos": { "h": 9, "w": 5, "x": 19, "y": 4 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {
@@ -127,7 +195,7 @@
       "title": "Top Blocked IPs",
       "type": "table",
       "id": 4,
-      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 9 },
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 13 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {},

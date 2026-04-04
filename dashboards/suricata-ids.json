@@ -26,10 +26,44 @@
   "liveNow": false,
   "panels": [
     {
+      "title": "Total Alerts (24h)",
+      "type": "stat",
+      "id": 5,
+      "gridPos": { "h": 4, "w": 8, "x": 0, "y": 0 },
+      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 100 },
+              { "color": "red", "value": 500 }
+            ]
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "options": {
+        "graphMode": "area",
+        "colorMode": "background",
+        "justifyMode": "center",
+        "textMode": "value_and_name",
+        "reduceOptions": { "calcs": ["sum"], "fields": "", "values": false }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "query": "from(bucket: \"telegraf\")\n  |> range(start: -24h)\n  |> filter(fn: (r) => r._measurement == \"suricata\")\n  |> filter(fn: (r) => r._field == \"alert\")\n  |> count()\n  |> yield(name: \"total_alerts\")"
+        }
+      ]
+    },
+    {
       "title": "Alert Severity Distribution",
       "type": "piechart",
       "id": 1,
-      "gridPos": { "h": 10, "w": 8, "x": 0, "y": 0 },
+      "gridPos": { "h": 10, "w": 8, "x": 0, "y": 4 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {
@@ -58,7 +92,7 @@
       "title": "Top Alert Signatures",
       "type": "table",
       "id": 2,
-      "gridPos": { "h": 10, "w": 16, "x": 8, "y": 0 },
+      "gridPos": { "h": 10, "w": 16, "x": 8, "y": 4 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {},
@@ -83,7 +117,7 @@
       "title": "Alerts Over Time",
       "type": "timeseries",
       "id": 3,
-      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 10 },
+      "gridPos": { "h": 8, "w": 16, "x": 0, "y": 14 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {
@@ -113,7 +147,7 @@
       "title": "Blocked Threats (24h)",
       "type": "stat",
       "id": 4,
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 10 },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 14 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
         "defaults": {
