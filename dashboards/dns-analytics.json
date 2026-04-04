@@ -10,14 +10,40 @@
     }
   ],
   "__requires": [
-    { "type": "grafana", "id": "grafana", "name": "Grafana", "version": "10.0.0" },
-    { "type": "datasource", "id": "influxdb", "name": "InfluxDB", "version": "1.0.0" },
-    { "type": "panel", "id": "timeseries", "name": "Time series", "version": "" },
-    { "type": "panel", "id": "table", "name": "Table", "version": "" },
-    { "type": "panel", "id": "stat", "name": "Stat", "version": "" },
-    { "type": "panel", "id": "barchart", "name": "Bar chart", "version": "" }
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    }
   ],
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -29,8 +55,16 @@
       "title": "DNS Query Volume",
       "type": "timeseries",
       "id": 1,
-      "gridPos": { "h": 9, "w": 16, "x": 0, "y": 0 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 9,
+        "w": 16,
+        "x": 0,
+        "y": 0
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -41,13 +75,21 @@
             "lineWidth": 2,
             "showPoints": "never"
           },
-          "color": { "mode": "palette-classic" }
+          "color": {
+            "mode": "palette-classic"
+          }
         },
         "overrides": []
       },
       "options": {
-        "legend": { "displayMode": "list", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -60,17 +102,34 @@
       "title": "DNSSEC Validation",
       "type": "stat",
       "id": 2,
-      "gridPos": { "h": 9, "w": 8, "x": 16, "y": 0 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "percentunit",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 0.5 },
-              { "color": "green", "value": 0.9 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.5
+              },
+              {
+                "color": "green",
+                "value": 0.9
+              }
             ]
           },
           "min": 0,
@@ -83,7 +142,13 @@
         "colorMode": "background",
         "justifyMode": "center",
         "textMode": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
       },
       "targets": [
         {
@@ -94,26 +159,62 @@
     },
     {
       "title": "Top Queried Domains",
-      "type": "barchart",
+      "type": "table",
       "id": 3,
-      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 9 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "palette-classic" },
-          "custom": {
-            "fillOpacity": 80,
-            "gradientMode": "hue",
-            "axisCenteredZero": false
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "domain"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Domain"
+              },
+              {
+                "id": "custom.width",
+                "value": 350
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "_value"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Query Count"
+              }
+            ]
           }
-        },
-        "overrides": []
+        ]
       },
       "options": {
-        "orientation": "horizontal",
-        "xTickLabelRotation": 0,
-        "legend": { "displayMode": "hidden" },
-        "tooltip": { "mode": "single" }
+        "showHeader": true,
+        "sortBy": [
+          {
+            "displayName": "Query Count",
+            "desc": true
+          }
+        ],
+        "footer": {
+          "show": false
+        }
       },
       "targets": [
         {
@@ -124,26 +225,58 @@
     },
     {
       "title": "Blocked Domains",
-      "type": "table",
+      "type": "stat",
       "id": 4,
-      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 9 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
-        "defaults": {},
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "domain" }, "properties": [{ "id": "displayName", "value": "Blocked Domain" }, { "id": "custom.width", "value": 350 }] },
-          { "matcher": { "id": "byName", "options": "_value" }, "properties": [{ "id": "displayName", "value": "Block Count" }] }
-        ]
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 100
+              },
+              {
+                "color": "red",
+                "value": 1000
+              }
+            ]
+          },
+          "mappings": []
+        },
+        "overrides": []
       },
       "options": {
-        "showHeader": true,
-        "sortBy": [{ "displayName": "Block Count", "desc": true }],
-        "footer": { "show": false }
+        "graphMode": "area",
+        "colorMode": "background",
+        "justifyMode": "center",
+        "textMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        }
       },
       "targets": [
         {
           "refId": "A",
-          "query": "from(bucket: \"telegraf\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"dns_query\")\n  |> filter(fn: (r) => r._field == \"blocked\")\n  |> filter(fn: (r) => r._value == true)\n  |> group(columns: [\"domain\"])\n  |> count()\n  |> group()\n  |> sort(columns: [\"_value\"], desc: true)\n  |> limit(n: 50)\n  |> yield(name: \"blocked_domains\")"
+          "query": "from(bucket: \"telegraf\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"dns_query\")\n  |> filter(fn: (r) => r._field == \"blocked\")\n  |> filter(fn: (r) => r._value == true)\n  |> count()\n  |> yield(name: \"blocked_count\")"
         }
       ]
     }
@@ -151,9 +284,17 @@
   "refresh": "1m",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["dns", "analytics"],
-  "templating": { "list": [] },
-  "time": { "from": "now-24h", "to": "now" },
+  "tags": [
+    "dns",
+    "analytics"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "browser",
   "title": "DNS Analytics",

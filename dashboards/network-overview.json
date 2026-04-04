@@ -10,13 +10,40 @@
     }
   ],
   "__requires": [
-    { "type": "grafana", "id": "grafana", "name": "Grafana", "version": "10.0.0" },
-    { "type": "datasource", "id": "influxdb", "name": "InfluxDB", "version": "1.0.0" },
-    { "type": "panel", "id": "timeseries", "name": "Time series", "version": "" },
-    { "type": "panel", "id": "table", "name": "Table", "version": "" },
-    { "type": "panel", "id": "stat", "name": "Stat", "version": "" }
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    }
   ],
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -28,8 +55,16 @@
       "title": "Traffic In/Out per Interface",
       "type": "timeseries",
       "id": 1,
-      "gridPos": { "h": 10, "w": 12, "x": 0, "y": 0 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "Bps",
@@ -46,8 +81,19 @@
         "overrides": []
       },
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["mean", "max", "lastNotNull"] },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -60,8 +106,16 @@
       "title": "Bandwidth Usage by VLAN",
       "type": "timeseries",
       "id": 2,
-      "gridPos": { "h": 10, "w": 12, "x": 12, "y": 0 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "bps",
@@ -70,14 +124,23 @@
             "fillOpacity": 60,
             "gradientMode": "hue",
             "lineWidth": 0,
-            "stacking": { "mode": "normal", "group": "A" }
+            "stacking": {
+              "mode": "normal",
+              "group": "A"
+            }
           }
         },
         "overrides": []
       },
       "options": {
-        "legend": { "displayMode": "list", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
@@ -88,30 +151,51 @@
     },
     {
       "title": "Current Throughput",
-      "type": "stat",
+      "type": "gauge",
       "id": 3,
-      "gridPos": { "h": 5, "w": 6, "x": 0, "y": 10 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 10
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
         "defaults": {
           "unit": "Bps",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 50000000 },
-              { "color": "red", "value": 100000000 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50000000
+              },
+              {
+                "color": "red",
+                "value": 100000000
+              }
             ]
           }
         },
         "overrides": []
       },
       "options": {
-        "graphMode": "area",
-        "colorMode": "background",
-        "justifyMode": "auto",
-        "textMode": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
       },
       "targets": [
         {
@@ -124,24 +208,57 @@
       "title": "Top Talkers",
       "type": "table",
       "id": 4,
-      "gridPos": { "h": 10, "w": 18, "x": 6, "y": 10 },
-      "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+      "gridPos": {
+        "h": 10,
+        "w": 18,
+        "x": 6,
+        "y": 10
+      },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
       "fieldConfig": {
-        "defaults": { "unit": "decbytes" },
+        "defaults": {
+          "unit": "decbytes"
+        },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Source IP" },
-            "properties": [{ "id": "custom.width", "value": 180 }]
+            "matcher": {
+              "id": "byName",
+              "options": "Source IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
           }
         ]
       },
       "options": {
         "showHeader": true,
-        "sortBy": [{ "displayName": "Total Bytes", "desc": true }],
-        "footer": { "show": false }
+        "sortBy": [
+          {
+            "displayName": "Total Bytes",
+            "desc": true
+          }
+        ],
+        "footer": {
+          "show": false
+        }
       },
       "transformations": [
-        { "id": "organize", "options": { "renameByName": { "src_ip": "Source IP", "_value": "Total Bytes" } } }
+        {
+          "id": "organize",
+          "options": {
+            "renameByName": {
+              "src_ip": "Source IP",
+              "_value": "Total Bytes"
+            }
+          }
+        }
       ],
       "targets": [
         {
@@ -154,12 +271,19 @@
   "refresh": "30s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["network", "traffic", "vlan"],
+  "tags": [
+    "network",
+    "traffic",
+    "vlan"
+  ],
   "templating": {
     "list": [
       {
         "current": {},
-        "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB}"
+        },
         "definition": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"telegraf\", tag: \"interface\", predicate: (r) => r._measurement == \"net\")",
         "hide": 0,
         "includeAll": true,
@@ -175,7 +299,10 @@
       }
     ]
   },
-  "time": { "from": "now-6h", "to": "now" },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "browser",
   "title": "Network Overview",
