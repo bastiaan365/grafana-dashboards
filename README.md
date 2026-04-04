@@ -15,19 +15,7 @@ Custom Grafana dashboards for monitoring a segmented home network with OPNsense,
 
 ## 📸 Screenshots
 
-> **Note:** Add your own screenshots to the `screenshots/` folder and update the links below.
-
-| Dashboard | Preview |
-|---|---|
-| Network Overview | ![Network Overview](screenshots/network-overview.png) |
-| Suricata IDS | ![Suricata IDS](screenshots/suricata-ids.png) |
-| DNS Analytics | ![DNS Analytics](screenshots/dns-analytics.png) |
-| OPNsense Firewall | ![OPNsense Firewall](screenshots/opnsense-firewall.png) |
-| System Health | ![System Health](screenshots/system-health.png) |
-| WireGuard VPN | ![WireGuard VPN](screenshots/wireguard-vpn.png) |
-
-*Screenshots show anonymized sample data.*
-
+Screenshots will be added once available. All dashboards display anonymized sample data. See [bastiaan365.com](https://bastiaan365.com) for a full write-up and visuals.
 ## 🏗️ Stack
 
 ```text
