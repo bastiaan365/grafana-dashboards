@@ -52,7 +52,7 @@
       "targets": [
         {
           "refId": "A",
-          "query": "from(bucket: \"telegraf\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"net\")\n  |> filter(fn: (r) => r.interface =~ /^${interface:regex}$/)\n  |> filter(fn: (r) => r._field == \"bytes_recv\" or r._field == \"bytes_sent\")\n  |> derivative(unit: 1s, nonNegative: true)\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"traffic\")"
+          "query": "from(bucket: \"telegraf\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"net\")\n  |> filter(fn: (r) => r.interface =~ /^(${interface:regex})$/)\n  |> filter(fn: (r) => r._field == \"bytes_recv\" or r._field == \"bytes_sent\")\n  |> derivative(unit: 1s, nonNegative: true)\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"traffic\")"
         }
       ]
     },
@@ -82,7 +82,7 @@
       "targets": [
         {
           "refId": "A",
-          "query": "from(bucket: \"telegraf\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"net\")\n  |> filter(fn: (r) => r.interface =~ /^vlan/)\n  |> filter(fn: (r) => r._field == \"bytes_recv\" or r._field == \"bytes_sent\")\n  |> derivative(unit: 1s, nonNegative: true)\n  |> map(fn: (r) => ({ r with _value: r._value * 8.0 }))\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"bandwidth\")"
+          "query": "from(bucket: \"telegraf\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"net\")\n  |> filter(fn: (r) => r.interface =~ /^(${vlan:regex})$/)\n  |> filter(fn: (r) => r._field == \"bytes_recv\" or r._field == \"bytes_sent\")\n  |> derivative(unit: 1s, nonNegative: true)\n  |> map(fn: (r) => ({ r with _value: r._value * 8.0 }))\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"bandwidth\")"
         }
       ]
     },
@@ -116,7 +116,7 @@
       "targets": [
         {
           "refId": "A",
-          "query": "from(bucket: \"telegraf\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"net\")\n  |> filter(fn: (r) => r.interface =~ /^${interface:regex}$/)\n  |> filter(fn: (r) => r._field == \"bytes_recv\" or r._field == \"bytes_sent\")\n  |> derivative(unit: 1s, nonNegative: true)\n  |> sum()\n  |> yield(name: \"throughput\")"
+          "query": "from(bucket: \"telegraf\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"net\")\n  |> filter(fn: (r) => r.interface =~ /^(${interface:regex})$/)\n  |> filter(fn: (r) => r._field == \"bytes_recv\" or r._field == \"bytes_sent\")\n  |> derivative(unit: 1s, nonNegative: true)\n  |> sum()\n  |> yield(name: \"throughput\")"
         }
       ]
     },
@@ -167,6 +167,23 @@
         "name": "interface",
         "options": [],
         "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"telegraf\", tag: \"interface\", predicate: (r) => r._measurement == \"net\")",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
+        "definition": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"telegraf\", tag: \"interface\", predicate: (r) => r._measurement == \"net\" and r.interface =~ /^vlan/)",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "vlan",
+        "label": "VLAN",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(bucket: \"telegraf\", tag: \"interface\", predicate: (r) => r._measurement == \"net\" and r.interface =~ /^vlan/)",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,

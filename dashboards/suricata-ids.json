@@ -13,7 +13,7 @@
     { "type": "grafana", "id": "grafana", "name": "Grafana", "version": "10.0.0" },
     { "type": "datasource", "id": "influxdb", "name": "InfluxDB", "version": "1.0.0" },
     { "type": "panel", "id": "piechart", "name": "Pie chart", "version": "" },
-    { "type": "panel", "id": "table", "name": "Table", "version": "" },
+    { "type": "panel", "id": "barchart", "name": "Bar chart", "version": "" },
     { "type": "panel", "id": "timeseries", "name": "Time series", "version": "" },
     { "type": "panel", "id": "stat", "name": "Stat", "version": "" }
   ],
@@ -56,21 +56,26 @@
     },
     {
       "title": "Top Alert Signatures",
-      "type": "table",
+      "type": "barchart",
       "id": 2,
       "gridPos": { "h": 10, "w": 16, "x": 8, "y": 0 },
       "datasource": { "type": "influxdb", "uid": "${DS_INFLUXDB}" },
       "fieldConfig": {
-        "defaults": {},
-        "overrides": [
-          { "matcher": { "id": "byName", "options": "signature" }, "properties": [{ "id": "custom.width", "value": 400 }] },
-          { "matcher": { "id": "byName", "options": "_value" }, "properties": [{ "id": "displayName", "value": "Count" }, { "id": "custom.width", "value": 100 }] }
-        ]
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "fillOpacity": 80,
+            "gradientMode": "hue",
+            "axisCenteredZero": false
+          }
+        },
+        "overrides": []
       },
       "options": {
-        "showHeader": true,
-        "sortBy": [{ "displayName": "Count", "desc": true }],
-        "footer": { "show": false }
+        "orientation": "horizontal",
+        "xTickLabelRotation": 0,
+        "legend": { "displayMode": "hidden" },
+        "tooltip": { "mode": "single" }
       },
       "targets": [
         {
@@ -88,11 +93,12 @@
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 70,
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "fillOpacity": 20,
             "gradientMode": "scheme",
-            "lineWidth": 0,
-            "stacking": { "mode": "normal", "group": "A" }
+            "lineWidth": 2,
+            "showPoints": "never"
           },
           "color": { "mode": "palette-classic" }
         },
