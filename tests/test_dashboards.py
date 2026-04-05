@@ -262,7 +262,8 @@ class TestDatasourceConfig:
         for req in d.get("__requires", []):
             if req.get("type") == "grafana":
                 version = req.get("version", "")
-                major = int(version.split(".")[0]) if version else 0
+                parts = version.split(".") if version else []
+                major = int(parts[0]) if parts and parts[0].isdigit() else 0
                 assert major >= 10, (
                     f"{filename}: Grafana version requirement should be >= 10.0.0, got {version!r}"
                 )

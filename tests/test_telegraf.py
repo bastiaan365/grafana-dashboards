@@ -37,7 +37,9 @@ def first(toml_section) -> dict:
     """Return the first item when a TOML [[array of tables]] is parsed as a list."""
     if isinstance(toml_section, list):
         return toml_section[0] if toml_section else {}
-    return toml_section
+    if isinstance(toml_section, dict):
+        return toml_section
+    return {}
 
 
 # ---------------------------------------------------------------------------
